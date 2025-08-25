@@ -1,6 +1,7 @@
 package com.nimbusnex.medicine_donation.service.impl;
 
 import com.nimbusnex.medicine_donation.exception.AlreadyExistsErrorExceptionHandler;
+import com.nimbusnex.medicine_donation.exception.InternalServerErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.exception.ValidationErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.model.entitiy.User;
 import com.nimbusnex.medicine_donation.model.response.CommonResponse;
@@ -14,7 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ValidationService validationService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -32,9 +37,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<CommonResponse<?>> createUser(User user) {
+    public ResponseEntity<CommonResponse<Boolean>> createUser(User user) {
         try {
             validationService.validateUser(user);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             if (userRepository.createUser(user)) {
                 return ResponseEntity.ok(new CommonResponse<>(
                         ResponseCodesAndMessages.SUCCESSFULLY_CREATE_STATUS,
@@ -42,31 +48,33 @@ public class UserServiceImpl implements UserService {
                         ResponseCodesAndMessages.SUCCESSFULLY_CREATE_MESSAGE,
                         true
                 ));
+            }else{
+                throw new InternalServerErrorExceptionHandler("something went wrong.");
             }
         } catch (ValidationErrorExceptionHandler validationErrorException) {
             throw new ValidationErrorExceptionHandler(validationErrorException.getMessage(), validationErrorException.getValidationFailedFieldResponsesList());
         } catch (AlreadyExistsErrorExceptionHandler alreadyExistsErrorException) {
             throw new AlreadyExistsErrorExceptionHandler(alreadyExistsErrorException.getMessage());
         } catch (Exception e) {
-
+            throw new InternalServerErrorExceptionHandler(e.getMessage());
         }
+    }
 
-        if (userCreateResponse.equals(ResponseCodesAndMessages.SUCCESSFULLY_CREATE_CODE)) {
-
-        } else if (userCreateResponse.equals(ResponseCodesAndMessages.ALREADY_USER_EXIST_CODE)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new CommonResponse<>(
-                    ResponseCodesAndMessages.ALREADY_USER_EXIST_STATUS,
-                    ResponseCodesAndMessages.ALREADY_USER_EXIST_CODE,
-                    ResponseCodesAndMessages.ALREADY_USER_EXIST_MESSAGE,
-                    false
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CommonResponse<>(
-                    ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_STATUS,
-                    ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_CODE,
-                    ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_MESSAGE,
-                    false
-            ));
+    @Override
+    public ResponseEntity<CommonResponse<List<User>>> getAllUsers() {
+        try {
+            List<User> users = userRepository.getAllUsers();
+            return new ResponseEntity<>(
+                    new CommonResponse<>(
+                            ResponseCodesAndMessages.SUCCESSFULLY_RETRIEVE_STATUS,
+                            ResponseCodesAndMessages.SUCCESSFULLY_RETRIEVE_CODE,
+                            ResponseCodesAndMessages.SUCCESSFULLY_RETRIEVE_MESSAGE,
+                            users
+                    ),
+                    HttpStatus.OK
+            );
+        } catch (Exception e) {
+            throw new InternalServerErrorExceptionHandler(e.getMessage());
         }
     }
 

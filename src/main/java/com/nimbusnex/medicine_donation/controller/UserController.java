@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/v0/user")
@@ -26,6 +23,14 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping(path = "/users")
+    public <T> ResponseEntity<CommonResponse<T>> getAllUsers() {
+        LOGGER.info("{} Start execute get all users {}", Constant.DOTS, Constant.DOTS);
+        ResponseEntity<CommonResponse<T>> response = userService.getAllUsers();
+        LOGGER.info("{} End execute get all users {}", Constant.DOTS, Constant.DOTS);
+        return response;
     }
 
     @PostMapping(path = "/user")

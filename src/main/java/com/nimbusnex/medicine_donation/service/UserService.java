@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
     <T> ResponseEntity<CommonResponse<T>> createUser(User user);
+
+    <T> ResponseEntity<CommonResponse<T>> getAllUsers();
 }

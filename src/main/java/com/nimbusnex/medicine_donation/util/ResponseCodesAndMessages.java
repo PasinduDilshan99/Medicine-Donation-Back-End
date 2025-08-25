@@ -11,6 +11,11 @@ public class ResponseCodesAndMessages {
     public static final String SUCCESSFULLY_CREATE_CODE = "SUCCESSFULLY_CREATE";
     public static final String SUCCESSFULLY_CREATE_MESSAGE = "SUCCESSFULLY_CREATE";
 
+    // SUCCESSFULLY_CREATE
+    public static final int SUCCESSFULLY_RETRIEVE_STATUS = 200;
+    public static final String SUCCESSFULLY_RETRIEVE_CODE = "SUCCESSFULLY_CREATE";
+    public static final String SUCCESSFULLY_RETRIEVE_MESSAGE = "SUCCESSFULLY_CREATE";
+
     // ALREADY_USER_EXIST
     public static final int ALREADY_USER_EXIST_STATUS = 200;
     public static final String ALREADY_USER_EXIST_CODE = "ALREADY_USER_EXIST";
