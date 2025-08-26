@@ -1,0 +1,639 @@
+# Complete Corrected Database Schema
+
+## 1. User Management Tables
+
+### user
+- id
+- username
+- first_name
+- last_name
+- full_name
+- nic
+- email
+- password_hash
+- phone_number
+- date_of_birth
+- user_type_id
+- status_id
+- profile_image_url
+- email_verified
+- phone_verified
+- created_at
+- updated_at
+- last_login
+- wallet_id
+
+### login_details
+- id
+- user_id
+- login_at
+- logout_at
+- ip_address
+- user_agent
+
+### password_reset_request
+- id
+- user_id
+- reset_token
+- token_expires_at
+- question1_answer_hash
+- question2_answer_hash
+- question3_answer_hash
+- status_id
+- created_at
+- completed_at
+
+### password_change_request
+- id
+- user_id
+- old_password_hash
+- new_password_hash
+- status_id
+- created_at
+- completed_at
+
+### secret_question_list
+- id
+- question_text
+- description
+- status_id
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### user_secret_questions
+- id
+- user_id
+- question1_id
+- question1_answer_hash
+- question2_id
+- question2_answer_hash
+- question3_id
+- question3_answer_hash
+- created_at
+- updated_at
+
+### user_status
+- id
+- status_code
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### user_type
+- id
+- type_name
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### address
+- id
+- house_no
+- street
+- city
+- district
+- province
+- country
+- postal_code
+- latitude
+- longitude
+- address_type
+- entity_type
+- entity_id
+- is_primary
+- created_at
+- updated_at
+
+## 2. Doctor Management
+
+### doctor_profile
+- id
+- user_id
+- medical_license_number
+- specialization_id
+- hospital_clinic_name
+- qualification
+- experience_years
+- started_year
+- verification_status_id
+- rating
+- total_consultations
+- created_at
+- updated_at
+- status_id
+
+### doctor_specialization_list
+- id
+- name
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### doctor_verification_documents
+- id
+- doctor_user_id
+- document_type
+- document_url
+- document_name
+- upload_date
+- verification_status
+
+### doctor_verification
+- id
+- doctor_user_id
+- verified_by_user_id
+- verification_notes
+- verification_status
+- verified_at
+- created_at
+
+## 3. Pharmacy Management
+
+### pharmacy_profile
+- id
+- user_id
+- pharmacy_name
+- license_number
+- registration_number
+- operating_hours
+- services_offered
+- website_url
+- verification_status_id
+- rating
+- total_orders
+- created_at
+- updated_at
+- status_id
+
+### pharmacy_verification_documents
+- id
+- pharmacy_user_id
+- document_type
+- document_url
+- document_name
+- upload_date
+- verification_status
+
+### pharmacy_verification
+- id
+- pharmacy_user_id
+- verified_by_user_id
+- verification_notes
+- verification_status
+- verified_at
+- created_at
+
+## 4. Delivery Management
+
+### delivery_profile
+- id
+- user_id
+- coverage_areas
+- availability_schedule
+- rating
+- total_deliveries
+- verification_status_id
+- is_available
+- created_at
+- updated_at
+- status_id
+
+### vehicle_type
+- id
+- name
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### license_type
+- id
+- name
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### delivery_profile_vehicles
+- id
+- delivery_profile_id
+- vehicle_type_id
+- vehicle_registration_no
+- is_active
+- created_at
+- updated_at
+
+### delivery_license_details
+- id
+- delivery_profile_id
+- license_number
+- license_type_id
+- issue_date
+- expiry_date
+- is_active
+
+### allowed_vehicles
+- id
+- license_type_id
+- vehicle_type_id
+- is_active
+
+### delivery_verification_documents
+- id
+- delivery_user_id
+- document_type
+- document_url
+- document_name
+- upload_date
+- verification_status
+
+### delivery_verification
+- id
+- delivery_user_id
+- verified_by_user_id
+- verification_notes
+- verification_status
+- verified_at
+- created_at
+
+## 5. Medicine Core Tables (MISSING IN YOUR SCHEMA)
+
+### medicine_categories
+- id
+- category_name
+- description
+- parent_category_id
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### medicines
+- id
+- name
+- generic_name
+- brand_name
+- category_id
+- dosage_form
+- strength
+- manufacturer
+- description
+- side_effects
+- contraindications
+- requires_prescription
+- storage_instructions
+- active_ingredients
+- is_active
+- created_at
+- updated_at
+
+### medicine_alternatives
+- id
+- primary_medicine_id
+- alternative_medicine_id
+- similarity_type
+- notes
+- created_at
+
+## 6. Medicine Request and Donation System
+
+### medicine_urgency_level
+- id
+- level_name
+- description
+- priority_order
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### medicine_request_status
+- id
+- status_code
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### medicine_requests
+- id
+- requester_id
+- medicine_id
+- quantity_needed
+- urgency_level_id
+- description
+- medical_condition
+- max_acceptable_price
+- alternative_medicines_accepted
+- status_id
+- expiry_date
+- contact_preference
+- is_urgent
+- created_at
+- updated_at
+
+### prescription_status
+- id
+- status_code
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### prescription_details
+- id
+- medicine_request_id
+- prescription_url
+- requires_verification
+- is_verified
+- verified_by_doctor_id
+- verification_notes
+- status_id
+- created_at
+- verified_at
+
+### medicine_donations
+- id
+- donor_id
+- medicine_id
+- quantity_available
+- quantity_donated
+- price_per_unit
+- expiry_date
+- batch_number
+- manufacturing_date
+- condition_description
+- storage_conditions
+- images_json
+- notes
+- status_id
+- created_at
+- updated_at
+
+### medicine_donation_status
+- id
+- status_code
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### medicine_request_responses
+- id
+- request_id
+- responder_id
+- medicine_id
+- quantity_offered
+- price_per_unit
+- expiry_date
+- pickup_address_id
+- pickup_date
+- pickup_time_from
+- pickup_time_to
+- response_message
+- status_id
+- created_at
+- updated_at
+
+### donation_matches
+- id
+- request_id
+- donation_id
+- response_id
+- quantity_matched
+- agreed_price
+- match_score
+- status_id
+- created_at
+- updated_at
+
+## 7. Delivery System
+
+### delivery_orders
+- id
+- match_id
+- medicine_request_id
+- delivery_person_id
+- pickup_address_id
+- delivery_address_id
+- pickup_contact_name
+- pickup_contact_phone
+- delivery_contact_name
+- delivery_contact_phone
+- special_instructions
+- estimated_pickup_time
+- estimated_delivery_time
+- actual_pickup_time
+- actual_delivery_time
+- delivery_fee
+- status_id
+- delivery_notes
+- proof_of_delivery_json
+- rating
+- feedback
+- created_at
+- updated_at
+
+### delivery_order_status
+- id
+- status_code
+- description
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### delivery_reviews
+- id
+- delivery_order_id
+- reviewer_id
+- reviewed_user_id
+- rating
+- review_text
+- review_type
+- is_visible
+- created_at
+- updated_at
+
+## 8. Communication System (MISSING IN YOUR SCHEMA)
+
+### messages
+- id
+- sender_id
+- receiver_id
+- subject
+- message_body
+- related_request_id
+- related_donation_id
+- related_match_id
+- message_type
+- is_read
+- read_at
+- priority
+- created_at
+
+### notifications
+- id
+- user_id
+- title
+- message
+- notification_type
+- category
+- is_read
+- read_at
+- related_entity_type
+- related_entity_id
+- action_url
+- expires_at
+- created_at
+
+## 9. Wallet System
+
+### wallet
+- id
+- user_id
+- wallet_number
+- balance_amount
+- membership_level_id
+- status_id
+- created_at
+- updated_at
+
+### wallet_transactions
+- id
+- wallet_id
+- transaction_type
+- amount
+- description
+- reference_id
+- reference_type
+- balance_before
+- balance_after
+- status_id
+- created_at
+
+### wallet_membership_level
+- id
+- level_name
+- description
+- min_amount
+- max_amount
+- discount_percentage
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### wallet_membership_benefits
+- id
+- name
+- membership_level_id
+- description
+- benefit_value
+- benefit_type
+- is_active
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+## 10. System Tables
+
+### file_uploads
+- id
+- user_id
+- original_filename
+- stored_filename
+- file_path
+- file_size
+- mime_type
+- file_type
+- related_entity_type
+- related_entity_id
+- upload_status
+- created_at
+
+### user_activity_logs
+- id
+- user_id
+- activity_type
+- description
+- ip_address
+- user_agent
+- additional_data_json
+- created_at
+
+### system_settings
+- id
+- setting_key
+- setting_value
+- description
+- data_type
+- is_editable
+- created_at
+- updated_at
+
+## Key Changes Made:
+
+### 1. **Fixed Naming Conventions**
+- `lisern_type` → `license_type`
+- `benidits` → `benefits`
+- `descrption` → `description`
+- `SecretquestionList` → `secret_question_list`
+
+### 2. **Security Improvements**
+- All passwords stored as `password_hash`
+- Added reset tokens for password recovery
+- Security question answers hashed
+
+### 3. **Added Missing Core Tables**
+- `medicine_categories`
+- `medicines`
+- `medicine_donations`
+- `medicine_request_responses`
+- `donation_matches`
+- `messages`
+- `notifications`
+- `wallet_transactions`
+
+### 4. **Simplified Complex Relationships**
+- Unified address table with entity_type/entity_id
+- Simplified pickup/delivery address structure
+- Consolidated verification documents
+
+### 5. **Added Essential Fields**
+- `alternative_medicines_accepted`
+- `max_acceptable_price`
+- Rating and review systems
+- Proper status management
+- Audit fields (created_by, updated_by)
+
+### 6. **Improved Data Integrity**
+- Proper foreign key relationships
+- Status tables for all entities
+- Transaction tracking in wallet
