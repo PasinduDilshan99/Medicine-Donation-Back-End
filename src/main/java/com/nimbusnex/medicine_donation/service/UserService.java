@@ -8,4 +8,6 @@ public interface UserService {
     <T> ResponseEntity<CommonResponse<T>> createUser(User user);
 
     <T> ResponseEntity<CommonResponse<T>> getAllUsers();
+
+    String verifyUser(User user);
 }

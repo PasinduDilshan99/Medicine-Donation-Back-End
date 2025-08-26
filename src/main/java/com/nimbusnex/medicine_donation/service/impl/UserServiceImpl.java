@@ -7,6 +7,7 @@ import com.nimbusnex.medicine_donation.model.entitiy.User;
 import com.nimbusnex.medicine_donation.model.response.CommonResponse;
 import com.nimbusnex.medicine_donation.model.response.ValidationResponse;
 import com.nimbusnex.medicine_donation.repository.UserRepository;
+import com.nimbusnex.medicine_donation.security.service.JwtService;
 import com.nimbusnex.medicine_donation.service.UserService;
 import com.nimbusnex.medicine_donation.service.ValidationService;
 import com.nimbusnex.medicine_donation.util.ResponseCodesAndMessages;
@@ -15,6 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +31,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ValidationService validationService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           ValidationService validationService) {
+                           ValidationService validationService,
+                           AuthenticationManager authenticationManager,
+                           JwtService jwtService) {
         this.userRepository = userRepository;
         this.validationService = validationService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -48,7 +58,7 @@ public class UserServiceImpl implements UserService {
                         ResponseCodesAndMessages.SUCCESSFULLY_CREATE_MESSAGE,
                         true
                 ));
-            }else{
+            } else {
                 throw new InternalServerErrorExceptionHandler("something went wrong.");
             }
         } catch (ValidationErrorExceptionHandler validationErrorException) {
@@ -78,4 +88,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public String verifyUser(User user) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getUsername(),
+                        user.getPassword())
+        );
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(user.getUsername());
+        } else {
+            return "failed";
+        }
+    }
 }

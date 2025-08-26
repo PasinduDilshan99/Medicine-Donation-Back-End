@@ -41,5 +41,13 @@ public class UserController {
         return response;
     }
 
+    @PostMapping(path = "/login")
+    public String login(@RequestBody User user) {
+        LOGGER.info("{} Start execute login {}", Constant.DOTS, Constant.DOTS);
+//        String response = userService.login(user);
+        LOGGER.info("{} End execute login {}", Constant.DOTS, Constant.DOTS);
+        return userService.verifyUser(user);
+    }
+
 
 }
