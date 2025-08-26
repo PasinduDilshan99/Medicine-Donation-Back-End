@@ -1,14 +1,14 @@
 package com.nimbusnex.medicine_donation.controller;
 
-import com.nimbusnex.medicine_donation.model.entitiy.User;
+import com.nimbusnex.medicine_donation.model.entity.User;
+import com.nimbusnex.medicine_donation.model.request.LoginRequest;
+import com.nimbusnex.medicine_donation.model.response.AuthenticateResponse;
 import com.nimbusnex.medicine_donation.model.response.CommonResponse;
 import com.nimbusnex.medicine_donation.service.UserService;
 import com.nimbusnex.medicine_donation.util.Constant;
-import com.nimbusnex.medicine_donation.util.ResponseCodesAndMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +42,11 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public String login(@RequestBody User user) {
+    public ResponseEntity<CommonResponse<AuthenticateResponse>> login(@RequestBody LoginRequest loginRequest) {
         LOGGER.info("{} Start execute login {}", Constant.DOTS, Constant.DOTS);
-//        String response = userService.login(user);
+        ResponseEntity<CommonResponse<AuthenticateResponse>> commonResponseResponseEntity = userService.userAuthenticate(loginRequest);
         LOGGER.info("{} End execute login {}", Constant.DOTS, Constant.DOTS);
-        return userService.verifyUser(user);
+        return commonResponseResponseEntity;
     }
 
 

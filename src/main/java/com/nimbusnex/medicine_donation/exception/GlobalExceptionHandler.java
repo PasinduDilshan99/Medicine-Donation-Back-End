@@ -58,4 +58,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(commonResponse, HttpStatus.CONFLICT);
     }
 
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = {UnAuthenticateErrorExceptionHandler.class})
+    public <T> ResponseEntity<CommonResponse<List<T>>> handleUnAuthenticateErrorException(UnAuthenticateErrorExceptionHandler e) {
+        logger.error("{} Un Authenticate Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.UNAUTHENTICATED_ERROR_STATUS,
+                ResponseCodesAndMessages.UNAUTHENTICATED_ERROR_CODE,
+                ResponseCodesAndMessages.UNAUTHENTICATED_ERROR_MESSAGE,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.CONFLICT);
+    }
+
 }

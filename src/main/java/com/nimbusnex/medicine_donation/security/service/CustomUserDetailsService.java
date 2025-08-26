@@ -1,7 +1,7 @@
 package com.nimbusnex.medicine_donation.security.service;
 
-import com.nimbusnex.medicine_donation.model.entitiy.User;
-import com.nimbusnex.medicine_donation.model.entitiy.UserPrinciple;
+import com.nimbusnex.medicine_donation.model.entity.User;
+import com.nimbusnex.medicine_donation.model.entity.UserPrinciple;
 import com.nimbusnex.medicine_donation.security.repository.UserRepositoryForSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepositoryForSecurity.getUserByUserName(username);
+        LOGGER.info("User found: {}", user);
         if (user == null){
             LOGGER.info("User not found");
             throw new UsernameNotFoundException("User Not found");

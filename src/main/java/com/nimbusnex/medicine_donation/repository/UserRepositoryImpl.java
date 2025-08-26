@@ -1,6 +1,6 @@
 package com.nimbusnex.medicine_donation.repository;
 
-import com.nimbusnex.medicine_donation.model.entitiy.User;
+import com.nimbusnex.medicine_donation.model.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "SELECT id, username, password FROM users";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             User user = new User();
-            user.setId(rs.getInt("id"));
+            user.setId(rs.getLong("id"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             return user;

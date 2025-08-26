@@ -1,6 +1,6 @@
 package com.nimbusnex.medicine_donation.security.repository.impl;
 
-import com.nimbusnex.medicine_donation.model.entitiy.User;
+import com.nimbusnex.medicine_donation.model.entity.User;
 import com.nimbusnex.medicine_donation.security.repository.UserRepositoryForSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class UserRepositoryForSecurityImpl implements UserRepositoryForSecurity 
 
         return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) -> {
             User user = new User();
-            user.setId(rs.getInt("id"));
+            user.setId(rs.getLong("id"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));
             return user;
