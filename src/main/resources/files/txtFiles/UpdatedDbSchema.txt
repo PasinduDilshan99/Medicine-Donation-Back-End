@@ -23,6 +23,34 @@
 - last_login
 - wallet_id
 
+### roles
+- id
+- name (ROLE_ADMIN, ROLE_MANAGER, ROLE_USER)
+- description
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### privileges
+- id
+- name (READ_USERS, WRITE_USERS, DELETE_USERS)
+- description
+- created_at
+- created_by
+- updated_at
+- updated_by
+
+### user_roles
+-id
+- user_id
+- role_id
+
+### role_privileges
+-id
+- role_id
+- privilege_id
+
 ### login_details
 - id
 - user_id
