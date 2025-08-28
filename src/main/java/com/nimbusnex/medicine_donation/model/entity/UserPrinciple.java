@@ -5,6 +5,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserPrinciple implements UserDetails {
 
@@ -16,7 +19,27 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        // If no roles are found, return default USER role
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+
+        // Convert roles to authorities
+        List<SimpleGrantedAuthority> roleAuthorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role))
+                .collect(Collectors.toList());
+
+        // Convert privileges to authorities (optional - you can choose to include or exclude this)
+        List<SimpleGrantedAuthority> privilegeAuthorities = Collections.emptyList();
+        if (user.getPrivileges() != null && !user.getPrivileges().isEmpty()) {
+            privilegeAuthorities = user.getPrivileges().stream()
+                    .map(privilege -> new SimpleGrantedAuthority("PRIVILEGE_" + privilege))
+                    .collect(Collectors.toList());
+        }
+
+        // Combine roles and privileges
+        return Stream.concat(roleAuthorities.stream(), privilegeAuthorities.stream())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -47,5 +70,10 @@ public class UserPrinciple implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    // Getter for the user object
+    public User getUser() {
+        return user;
     }
 }

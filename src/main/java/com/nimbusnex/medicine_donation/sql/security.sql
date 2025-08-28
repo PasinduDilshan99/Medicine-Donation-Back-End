@@ -14,7 +14,7 @@ CREATE TABLE users
     full_name         VARCHAR(101),
     nic               VARCHAR(12)   NOT NULL UNIQUE,
     email             VARCHAR(100)  NOT NULL UNIQUE,
-    password_hash     VARCHAR(1000) NOT NULL,
+    password    VARCHAR(1000) NOT NULL,
     phone_number      VARCHAR(20),
     date_of_birth     DATE,
     user_type_id      BIGINT        NOT NULL,

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -70,4 +71,10 @@ public class User {
     @JsonProperty("wallet_id")
     private Long walletId;
 
+    // New fields for roles and privileges
+    @JsonIgnore
+    private List<String> roles;
+
+    @JsonIgnore
+    private List<String> privileges;
 }
