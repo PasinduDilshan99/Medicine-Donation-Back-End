@@ -17,4 +17,10 @@ public class ErrorQueries {
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
 
+    public static final String INSERT_JWT_TOKEN_ERROR_RECORD = """
+            INSERT INTO jwt_failure_records
+            (status, code, message, timestamp, error_message, path, user_id, jwt_token)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """;
+
 }

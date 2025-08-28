@@ -1,5 +1,6 @@
 package com.nimbusnex.medicine_donation.security.service.impl;
 
+import com.nimbusnex.medicine_donation.model.request.InsertJwtTokenErrorRecordRequest;
 import com.nimbusnex.medicine_donation.model.request.InsertUnAuthenticateRecordRequest;
 import com.nimbusnex.medicine_donation.model.request.InsertUnAuthorizeRecordRequest;
 import com.nimbusnex.medicine_donation.security.repository.ErrorRepository;
@@ -21,26 +22,38 @@ public class ErrorServiceImpl implements ErrorService {
     }
 
     @Override
-    public void insertUnAuthenticateRecord(InsertUnAuthenticateRecordRequest request) {
-        Assert.notNull(request, "InsertUnAuthenticateRecordRequest must not be null");
+    public void insertUnAuthenticateRecord(InsertUnAuthenticateRecordRequest insertUnAuthenticateRecordRequest) {
+        Assert.notNull(insertUnAuthenticateRecordRequest, "InsertUnAuthenticateRecordRequest must not be null");
         try {
-            errorRepository.insertUnAuthenticateRecord(request);
-            LOGGER.info("Unauthenticated record inserted for userId={}", request.getUserId());
+            errorRepository.insertUnAuthenticateRecord(insertUnAuthenticateRecordRequest);
+            LOGGER.info("Unauthenticated record inserted for userId={}", insertUnAuthenticateRecordRequest.getUserId());
         } catch (Exception e) {
             LOGGER.error("Failed to insert unauthenticated record for userId={}: {}",
-                    request.getUserId(), e.getMessage(), e);
+                    insertUnAuthenticateRecordRequest.getUserId(), e.getMessage(), e);
         }
     }
 
     @Override
-    public void insertUnauthorizedAccessRecord(InsertUnAuthorizeRecordRequest request) {
-        Assert.notNull(request, "InsertUnAuthorizeRecordRequest must not be null");
+    public void insertUnauthorizedAccessRecord(InsertUnAuthorizeRecordRequest insertUnAuthorizeRecordRequest) {
+        Assert.notNull(insertUnAuthorizeRecordRequest, "InsertUnAuthorizeRecordRequest must not be null");
         try {
-            errorRepository.insertUnauthorizedAccessRecord(request);
-            LOGGER.info("Unauthorized access record inserted for userId={}", request.getUserId());
+            errorRepository.insertUnauthorizedAccessRecord(insertUnAuthorizeRecordRequest);
+            LOGGER.info("Unauthorized access record inserted for userId={}", insertUnAuthorizeRecordRequest.getUserId());
         } catch (Exception e) {
             LOGGER.error("Failed to insert unauthorized access record for userId={}: {}",
-                    request.getUserId(), e.getMessage(), e);
+                    insertUnAuthorizeRecordRequest.getUserId(), e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void insertJwtTokenErrorRecord(InsertJwtTokenErrorRecordRequest insertJwtTokenErrorRecordRequest) {
+        Assert.notNull(insertJwtTokenErrorRecordRequest, "InsertJwtTokenErrorRecordRequest must not be null");
+        try {
+            errorRepository.insertJwtTokenErrorRecord(insertJwtTokenErrorRecordRequest);
+            LOGGER.info("Unauthorized access record inserted for userId={}", insertJwtTokenErrorRecordRequest.getUserId());
+        } catch (Exception e) {
+            LOGGER.error("Failed to insert unauthorized access record for userId={}: {}",
+                    insertJwtTokenErrorRecordRequest.getUserId(), e.getMessage(), e);
         }
     }
 }

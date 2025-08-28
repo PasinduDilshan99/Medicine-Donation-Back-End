@@ -70,4 +70,9 @@ public class ResponseCodesAndMessages {
     public static final int UNAUTHENTICATED_ERROR_STATUS = 401;
     public static final String UNAUTHENTICATED_ERROR_CODE = "UNAUTHENTICATED";
     public static final String UNAUTHENTICATED_ERROR_MESSAGE = "Authentication is required to access this resource.";
+
+    // Unauthenticated Error
+    public static final int JWT_FAILED_STATUS = 401;
+    public static final String JWT_FAILED_CODE = "UNAUTHENTICATED";
+    public static final String JWT_FAILED_MESSAGE = "Authentication is required to access this resource.";
 }

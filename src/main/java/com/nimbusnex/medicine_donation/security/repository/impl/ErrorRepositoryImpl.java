@@ -1,5 +1,6 @@
 package com.nimbusnex.medicine_donation.security.repository.impl;
 
+import com.nimbusnex.medicine_donation.model.request.InsertJwtTokenErrorRecordRequest;
 import com.nimbusnex.medicine_donation.model.request.InsertUnAuthenticateRecordRequest;
 import com.nimbusnex.medicine_donation.model.request.InsertUnAuthorizeRecordRequest;
 import com.nimbusnex.medicine_donation.queries.ErrorQueries;
@@ -65,6 +66,28 @@ public class ErrorRepositoryImpl implements ErrorRepository {
         } catch (DataAccessException e) {
             LOGGER.error("Failed to insert unauthorized access record for userId={} : {}",
                     insertUnAuthorizeRecordRequest.getUserId(), e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void insertJwtTokenErrorRecord(InsertJwtTokenErrorRecordRequest request) {
+        String sql = ErrorQueries.INSERT_JWT_TOKEN_ERROR_RECORD;
+
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    request.getStatus(),
+                    request.getCode(),
+                    request.getMessage(),
+                    request.getTimestamp(),
+                    request.getErrorMessage(),
+                    request.getPath(),
+                    request.getUserId(),
+                    request.getJwtToken()
+            );
+            LOGGER.info("JWT error record inserted for userId={}", request.getUserId());
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to insert JWT error record for userId={} : {}", request.getUserId(), e.getMessage(), e);
         }
     }
 
