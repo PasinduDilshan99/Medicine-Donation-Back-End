@@ -1,5 +1,7 @@
 package com.nimbusnex.medicine_donation.security.service;
 
+import com.nimbusnex.medicine_donation.model.entity.User;
+import com.nimbusnex.medicine_donation.security.repository.UserRepositoryForSecurity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -22,7 +24,10 @@ public class JwtService {
 
     private String SECRET_KEY = "";
 
-    public JwtService() {
+    private final UserRepositoryForSecurity userRepositoryForSecurity;
+
+    public JwtService(UserRepositoryForSecurity userRepositoryForSecurity) {
+        this.userRepositoryForSecurity = userRepositoryForSecurity;
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
             SecretKey secretKey = keyGenerator.generateKey();
@@ -33,7 +38,9 @@ public class JwtService {
     }
 
     public String generateToken(String username) {
+       User user = userRepositoryForSecurity.getUserByUserName(username);
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
         return Jwts.builder()
                 .claims()
                 .add(claims)
@@ -49,6 +56,11 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
+
 
     public String extractUserName(String token) {
         // extract the username from jwt token

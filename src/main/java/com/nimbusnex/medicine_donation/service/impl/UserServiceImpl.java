@@ -2,10 +2,12 @@ package com.nimbusnex.medicine_donation.service.impl;
 
 import com.nimbusnex.medicine_donation.exception.AlreadyExistsErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.exception.InternalServerErrorExceptionHandler;
+import com.nimbusnex.medicine_donation.exception.UnAuthenticateErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.exception.ValidationErrorExceptionHandler;
-import com.nimbusnex.medicine_donation.model.entitiy.User;
+import com.nimbusnex.medicine_donation.model.entity.User;
+import com.nimbusnex.medicine_donation.model.request.LoginRequest;
+import com.nimbusnex.medicine_donation.model.response.AuthenticateResponse;
 import com.nimbusnex.medicine_donation.model.response.CommonResponse;
-import com.nimbusnex.medicine_donation.model.response.ValidationResponse;
 import com.nimbusnex.medicine_donation.repository.UserRepository;
 import com.nimbusnex.medicine_donation.security.service.JwtService;
 import com.nimbusnex.medicine_donation.service.UserService;
@@ -88,17 +90,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
-    public String verifyUser(User user) {
+    public ResponseEntity<CommonResponse<AuthenticateResponse>> userAuthenticate(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword())
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword())
         );
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername());
+            String token = jwtService.generateToken(loginRequest.getUsername());
+            return ResponseEntity.ok(new CommonResponse<>(
+                    ResponseCodesAndMessages.SUCCESSFULLY_CREATE_STATUS,
+                    ResponseCodesAndMessages.SUCCESSFULLY_CREATE_CODE,
+                    ResponseCodesAndMessages.SUCCESSFULLY_CREATE_MESSAGE,
+                    new AuthenticateResponse(token, null)
+            ));
         } else {
-            return "failed";
+            throw new UnAuthenticateErrorExceptionHandler("User unauthenticate");
         }
     }
 }
