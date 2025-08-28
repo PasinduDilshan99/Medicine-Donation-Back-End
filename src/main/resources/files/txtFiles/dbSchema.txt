@@ -1,0 +1,474 @@
+user:
+- id
+- username
+- first_name
+- last_name
+- full_name
+- nic
+- email
+- password
+- phone_number
+- date_of_birth
+- user_type_id
+- status (user_status)
+- profile_image_url
+- email_verified
+- phone_verified
+- created_at
+- updated_at
+- last_login
+- wallet_id
+
+login_details
+-id
+-user_id
+-login_at
+-logout_at
+
+password_reset_request
+-id
+-user_id
+- question1_answer
+- question2_answer
+- question3_answer
+- status(is success)
+- created_at
+
+password_change_request
+-id
+-user_id
+-created_at
+-old_password
+-new_password
+-reenter-new password
+status(is success)
+
+SecretquestionList
+-id
+-questions
+-descrption
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+secretQuestions
+- id
+- user_id
+- question1
+- question1_answer
+- question2
+- question2_answer
+- question3
+- question3_answer
+
+user_status
+-id
+-status
+-descrption
+-status(user_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+user_type
+-id
+-type
+-descrption
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+
+address
+-id
+-no
+-street
+-city
+-district
+-province
+-country
+-postal code
+-user_id
+
+
+### doctor_profiles
+- id
+- user_id
+- medical_license_number
+- specialization
+- hospital_clinic_name
+- qualification
+- started_year
+- verification_stats_id
+- verification_documents_id
+- created_at
+- updated_at
+- status(doctor_status)
+
+doctor_verification_documents
+- id
+- doctor_user_id
+- document1_url
+- document2_url
+- document3_url
+
+doctor_status
+-id
+-status
+-descrption
+-status(doctor_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+doctor_verification
+- id
+- doctor_user_id
+- user_id (veridied)
+- verified_at
+- verified_by
+
+doctor_specialization_lsit
+-id
+-name
+-description
+-created_at
+-created_by
+-updated_at
+-updated_by
+-status
+
+
+### pharmacy_profiles
+- id
+- user_id
+- pharmacy_address
+- pharmacy_name
+- license_number
+- registration_number
+- operating_hours
+- services_offered
+- website_url
+- latitude
+- longitude
+- verification_status_id
+- verification_documents_id
+- created_at
+- updated_at
+- status(pharmacy_status)
+
+
+pharmacy_address
+-id
+-no
+-street
+-city
+-district
+-province
+-country
+-postal code
+-pharmacy_id
+
+pharmacy_verification_documents
+- id
+- pharmacy_user_id
+- document1_url
+- document2_url
+- document3_url
+
+pharmacy_status
+-id
+-status
+-descrption
+-status(pharmacy_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+pharmacy_verification
+- id
+- pharmacy_user_id
+- user_id (veridied)
+- verified_at
+- verified_by
+
+vehicle_type
+-id
+-name
+-description
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+delivery_profiles_vehicels
+-id
+-delivery_profiles_id
+-vehicle_type_id
+-status
+-created_at
+-updated_at
+
+delivery_lisern_details
+-id
+-delivery_profiles_id
+-license_number
+-lisern_type_id
+
+lisern_type
+-id
+-name
+-description
+-status
+
+allow_vehicles
+id
+lisern_type_id
+vehicle_type_id
+
+
+### delivery_profiles
+- id
+- user_id
+- delivery_lisern_details_id
+- coverage_areas
+- availability_schedule
+- rating
+- total_deliveries
+- verification_status_id
+- created_at
+- updated_at
+- status (is_available)
+
+delivery_verification_documents
+- id
+- delivery_user_id
+- document1_url
+- document2_url
+- document3_url
+
+delivery_status
+-id
+-status
+-descrption
+-status(delivery_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+delivery_verification
+- id
+- delivery_user_id
+- user_id (veridied)
+- verified_at
+- verified_by
+
+medicine_urgency_level_details
+-id
+-level
+-description
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+prescription_details
+- id
+- medicine_requests_id
+- prescription_url
+- is_need_toprescription_verified
+- prescription_verified
+- verified_doctor_id
+- created_at
+- verified_at
+- status (prescription_status)
+
+
+prescription_status
+-id
+-status
+-descrption
+-status(prescription_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+medicine_verification_notes
+-id
+-medicine_requests_id
+-doc1
+-doc2
+-doc3
+-created_at
+
+medicine_requests_status
+-id
+-status
+-descrption
+-status(medicine_requests_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+### medicine_requests
+- id
+- requester_id
+- medicine_id
+- quantity_needed
+- medicine_urgency_level_details_id
+- description
+- medical_condition
+- prescription_details_id
+- medicine_verification_notes_id
+- status (medicine_requests_status)
+- final_date
+- expires_at
+- deliver_address_id
+- contact_preference
+- is_urgent
+- created_at
+- updated_at
+
+
+medicine_procsess
+-id
+-medicine_requests_id
+-price
+- responser_user_id
+- response_pickup_details_id
+- created_at
+
+pickup_details
+-id
+-medicine_procsess_id
+-pickup_date
+-pickup_address_id
+
+
+pickup_address
+-id
+-no
+-street
+-city
+-district
+-province
+-country
+-postal code
+-pickup_details_id
+
+
+medicine_requests_delivery_request
+-id
+-medicine_requests_id
+-deliver_address_id
+-pickup_address_id
+-status
+-created_at
+-deliver_id
+-updated_at
+
+
+deliver_address
+-id
+-no
+-street
+-city
+-district
+-province
+-country
+-postal code
+-medicine_requests_id
+
+
+### delivery_orders
+- id
+- medicine_requests_id
+- delivery_person_id
+- pickup_address_id
+- delivery_address_id
+- pickup_contact_name
+- pickup_contact_phone
+- delivery_contact_name
+- delivery_contact_phone
+- special_instructions
+- estimated_pickup_time
+- estimated_delivery_time
+- actual_pickup_time
+- actual_delivery_time
+- delivery_fee
+- status
+- delivery_notes
+- proof_of_delivery
+- rating
+- feedback
+- created_at
+- updated_at
+
+
+### deliver_reviews
+- id
+-deliver_id
+- reviewer_id
+- reviewed_user_id
+- medicine_requests_id
+- rating
+- review_text
+- review_type
+- is_visible
+- created_at
+- updated_at
+
+
+wallet
+-id
+-user_id
+-wallet_no
+-status
+-amount
+-membership_level_id
+
+wallet_membership_level
+-id
+-level
+-description
+-min_amonut
+-max_amount
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+wallet_membership_level_benidits
+-id
+-name
+-wallet_membership_level_id
+-description
+-status
+-created_at
+-created_by
+-updated_at
+-updated_by
+
+wallet_membership_level_status
+-id
+-status
+-descrption
+-status(wallet_membership_level_status_status)
+-created_at
+-created_by
+-updated_at
+-updated_by
+
