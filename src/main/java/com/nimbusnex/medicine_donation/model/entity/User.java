@@ -71,7 +71,6 @@ public class User {
     @JsonProperty("wallet_id")
     private Long walletId;
 
-    // New fields for roles and privileges
     @JsonIgnore
     private List<String> roles;
 
