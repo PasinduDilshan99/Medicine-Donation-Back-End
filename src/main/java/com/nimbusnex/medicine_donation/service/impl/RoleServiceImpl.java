@@ -5,6 +5,7 @@ import com.nimbusnex.medicine_donation.model.entity.Role;
 import com.nimbusnex.medicine_donation.model.entity.User;
 import com.nimbusnex.medicine_donation.model.request.AddRoleRequest;
 import com.nimbusnex.medicine_donation.model.request.UpdateRoleRequest;
+import com.nimbusnex.medicine_donation.model.request.ValidateStringRequest;
 import com.nimbusnex.medicine_donation.model.response.CommonResponse;
 import com.nimbusnex.medicine_donation.model.response.InsertCommonResponse;
 import com.nimbusnex.medicine_donation.model.response.UpdateCommonResponse;
@@ -70,7 +71,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public ResponseEntity<CommonResponse<Role>> getRoleByName(String name) {
         try {
-            ValidationResponse validationResponse = roleValidation.validateRoleName(name);
+            ValidationResponse validationResponse = roleValidation.validateRoleName(new ValidateStringRequest("Role name",name));
             if (!validationResponse.isValid()) {
                 throw new ValidationErrorExceptionHandler(
                         "Role name validation failed.",
@@ -98,6 +99,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public ResponseEntity<CommonResponse<Role>> getRoleById(Long id) {
         try {
+            ValidationResponse validationResponse = roleValidation.validateRoleId(id);
+            if (!validationResponse.isValid()){
+                throw new ValidationErrorExceptionHandler(
+                        "Role Id validation failed.",
+                        validationResponse.getValidationFailedFieldResponses());
+            }
             Role role = roleRepository.getRoleById(id);
             if (role == null) {
                 throw new NoAnyDataFoundErrorExceptionHandler("Role not found");
@@ -123,6 +130,12 @@ public class RoleServiceImpl implements RoleService {
         Long loggedUserId = commonService.getLoggedUserId();
         if (loggedUserId == null) {
             throw new InternalServerErrorExceptionHandler("Logged user id is null");
+        }
+        ValidationResponse validationResponse = roleValidation.validateRole(role);
+        if (!validationResponse.isValid()){
+            throw new ValidationErrorExceptionHandler(
+                    "Role validation failed.",
+                    validationResponse.getValidationFailedFieldResponses());
         }
         Role searchedRole = roleRepository.getRoleByName(role.getName());
         if (searchedRole != null) {
@@ -160,6 +173,12 @@ public class RoleServiceImpl implements RoleService {
         Long loggedUserId = commonService.getLoggedUserId();
         if (loggedUserId == null) {
             throw new InternalServerErrorExceptionHandler("Logged user id is null");
+        }
+        ValidationResponse validationResponse = roleValidation.validateRole(role);
+        if (!validationResponse.isValid()){
+            throw new ValidationErrorExceptionHandler(
+                    "Role validation failed.",
+                    validationResponse.getValidationFailedFieldResponses());
         }
         Role searchedRole = roleRepository.getRoleByName(role.getName());
         if (searchedRole == null) {
