@@ -3,10 +3,12 @@ package com.nimbusnex.medicine_donation.validation.impl;
 import com.nimbusnex.medicine_donation.model.entity.Role;
 import com.nimbusnex.medicine_donation.model.request.ValidateLongInStringFormatRequest;
 import com.nimbusnex.medicine_donation.model.request.ValidateLongRequest;
+import com.nimbusnex.medicine_donation.model.request.ValidateStatusRequest;
 import com.nimbusnex.medicine_donation.model.request.ValidateStringRequest;
 import com.nimbusnex.medicine_donation.model.response.ValidationFailedFieldResponses;
 import com.nimbusnex.medicine_donation.model.response.ValidationResponse;
 import com.nimbusnex.medicine_donation.util.ValidationConstant;
+import com.nimbusnex.medicine_donation.util.ValidationEnumsNames;
 import com.nimbusnex.medicine_donation.validation.CommonValidation;
 import com.nimbusnex.medicine_donation.validation.RoleValidation;
 import org.slf4j.Logger;
@@ -104,9 +106,25 @@ public class RoleValidationImpl implements RoleValidation {
     }
 
     @Override
+    public ValidationResponse validateRoleStatus(String roleStatus){
+        ValidationResponse validateStatus = commonValidation.validateStatus(new ValidateStatusRequest(ValidationEnumsNames.ROLE_STATUS, roleStatus));
+        ValidationResponse validationResponse = new ValidationResponse();
+        List<ValidationFailedFieldResponses> validationFailedFieldResponsesList = new ArrayList<>();
+        validationResponse.setValid(true);
+        validationResponse.setValidationFailedFieldResponses(validationFailedFieldResponsesList);
+
+        if (!validateStatus.isValid()) {
+            validationResponse.setValid(false);
+            validationFailedFieldResponsesList.addAll(validateStatus.getValidationFailedFieldResponses());
+        }
+        return validationResponse;
+    }
+
+    @Override
     public ValidationResponse validateRole(Role role) {
         ValidationResponse validateRoleName = validateRoleName(new ValidateStringRequest("Role name", role.getName()));
         ValidationResponse validateRoleDescription = validateRoleDescription(new ValidateStringRequest("Role description", role.getDescription()));
+        ValidationResponse validateRoleStatus = validateRoleStatus(String.valueOf(role.getStatus()));
         ValidationResponse validationResponse = new ValidationResponse();
         List<ValidationFailedFieldResponses> validationFailedFieldResponsesList = new ArrayList<>();
         validationResponse.setValid(true);
@@ -118,6 +136,10 @@ public class RoleValidationImpl implements RoleValidation {
         if (!validateRoleDescription.isValid()){
             validationResponse.setValid(false);
             validationFailedFieldResponsesList.addAll(validateRoleDescription.getValidationFailedFieldResponses());
+        }
+        if (!validateRoleStatus.isValid()){
+            validationResponse.setValid(false);
+            validationFailedFieldResponsesList.addAll(validateRoleStatus.getValidationFailedFieldResponses());
         }
         return validationResponse;
     }

@@ -8,7 +8,10 @@ public interface RoleValidation {
     ValidationResponse validateRoleName(ValidateStringRequest roleName);
 
     ValidationResponse validateRoleId(Long id);
+
     ValidationResponse validateRoleDescription(ValidateStringRequest validateStringRequest);
 
     ValidationResponse validateRole(Role role);
+
+    ValidationResponse validateRoleStatus(String roleStatus);
 }

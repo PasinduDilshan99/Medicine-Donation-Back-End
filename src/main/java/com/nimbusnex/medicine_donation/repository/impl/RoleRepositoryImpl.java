@@ -5,6 +5,7 @@ import com.nimbusnex.medicine_donation.exception.NoAnyDataFoundErrorExceptionHan
 import com.nimbusnex.medicine_donation.exception.SearchDataErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.exception.UpdateDataErrorExceptionHandler;
 import com.nimbusnex.medicine_donation.model.entity.Role;
+import com.nimbusnex.medicine_donation.model.enums.RoleStatus;
 import com.nimbusnex.medicine_donation.model.request.AddRoleRequest;
 import com.nimbusnex.medicine_donation.model.request.UpdateRoleRequest;
 import com.nimbusnex.medicine_donation.queries.RoleQueries;
@@ -44,6 +45,7 @@ public class RoleRepositoryImpl implements RoleRepository {
                 role.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
                 role.setCreatedBy(rs.getLong("created_by"));
                 role.setUpdatedBy(rs.getLong("updated_by"));
+                role.setStatus(rs.getString("status"));
                 return role;
             });
         } catch (EmptyResultDataAccessException e) {
@@ -66,6 +68,7 @@ public class RoleRepositoryImpl implements RoleRepository {
                 role.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
                 role.setCreatedBy(rs.getLong("created_by"));
                 role.setUpdatedBy(rs.getLong("updated_by"));
+                role.setStatus(rs.getString("status"));
                 return role;
             }, name);
         } catch (EmptyResultDataAccessException e) {
@@ -88,6 +91,7 @@ public class RoleRepositoryImpl implements RoleRepository {
                 role.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
                 role.setCreatedBy(rs.getLong("created_by"));
                 role.setUpdatedBy(rs.getLong("updated_by"));
+                role.setStatus(rs.getString("status"));
                 return role;
             }, id);
         } catch (EmptyResultDataAccessException e) {

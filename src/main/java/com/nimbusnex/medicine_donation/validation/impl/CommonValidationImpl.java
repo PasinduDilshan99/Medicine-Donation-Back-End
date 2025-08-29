@@ -1,9 +1,11 @@
 package com.nimbusnex.medicine_donation.validation.impl;
 
+import com.nimbusnex.medicine_donation.model.enums.RoleStatus;
 import com.nimbusnex.medicine_donation.model.request.*;
 import com.nimbusnex.medicine_donation.model.response.ValidationFailedFieldResponses;
 import com.nimbusnex.medicine_donation.model.response.ValidationResponse;
 import com.nimbusnex.medicine_donation.util.RegexPatterns;
+import com.nimbusnex.medicine_donation.util.ValidationEnumsNames;
 import com.nimbusnex.medicine_donation.validation.CommonValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,5 +172,38 @@ public class CommonValidationImpl implements CommonValidation {
         } else {
             return new ValidationResponse(true, Collections.emptyList());
         }
+    }
+
+    @Override
+    public ValidationResponse validateStatus(ValidateStatusRequest validateStatusRequest) {
+        ValidationResponse validateNull = validateStringNonEmpty(new ValidateStringRequest(validateStatusRequest.getKey(), validateStatusRequest.getValue()));
+        if (!validateNull.isValid()) {
+            return validateNull;
+        } else {
+            String value = validateStatusRequest.getValue();
+            // ROLE ENUM
+            if (validateStatusRequest.getKey().equals(ValidationEnumsNames.ROLE_STATUS)) {
+                boolean isValidStatus = false;
+                for (RoleStatus status : RoleStatus.values()) {
+                    if (status.name().equalsIgnoreCase(value)) {
+                        isValidStatus = true;
+                        break;
+                    }
+                }
+                if (!isValidStatus) {
+                    return new ValidationResponse(false,
+                            Collections.singletonList(
+                                    new ValidationFailedFieldResponses(
+                                            1,
+                                            validateStatusRequest.getKey(),
+                                            validateStatusRequest.getKey() + " is not a valid RoleStatus."
+                                    )
+                            )
+                    );
+                }
+            }
+
+        }
+        return new ValidationResponse(true, Collections.emptyList());
     }
 }
