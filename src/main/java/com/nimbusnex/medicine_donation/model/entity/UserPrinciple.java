@@ -1,5 +1,7 @@
 package com.nimbusnex.medicine_donation.model.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UserPrinciple implements UserDetails {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserPrinciple.class);
 
     private User user;
 
@@ -37,9 +41,14 @@ public class UserPrinciple implements UserDetails {
                     .collect(Collectors.toList());
         }
 
+        LOGGER.info("User authorities: {}", roleAuthorities);
+        LOGGER.info("User privileges: {}", privilegeAuthorities);
+
         // Combine roles and privileges
-        return Stream.concat(roleAuthorities.stream(), privilegeAuthorities.stream())
+        List<SimpleGrantedAuthority> collect = Stream.concat(roleAuthorities.stream(), privilegeAuthorities.stream())
                 .collect(Collectors.toList());
+        LOGGER.info("User combined authorities: {}", collect);
+        return collect;
     }
 
     @Override

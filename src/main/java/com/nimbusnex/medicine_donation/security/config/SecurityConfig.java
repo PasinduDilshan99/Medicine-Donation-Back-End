@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/v0/user/login")
                         .permitAll()
+                        .requestMatchers("/v0/role/roles").hasAuthority("PRIVILEGE_READ_USERS")
                         .anyRequest()
                         .authenticated())
 //                .httpBasic(Customizer.withDefaults())
@@ -71,15 +72,5 @@ public class SecurityConfig {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user1 = User.withDefaultPasswordEncoder()
-//                .username("user1")
-//                .password("password1")
-//                .roles("USER")
-//                .build();
-//       return new InMemoryUserDetailsManager(user1);
-//    }
 
 }

@@ -40,23 +40,25 @@ public class GlobalExceptionHandler {
                 ResponseCodesAndMessages.ALREADY_USER_EXIST_STATUS,
                 ResponseCodesAndMessages.ALREADY_USER_EXIST_CODE,
                 ResponseCodesAndMessages.ALREADY_USER_EXIST_MESSAGE,
-                null
+                e.getMessage()
         );
         return new ResponseEntity<>(commonResponse, HttpStatus.CONFLICT);
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {InternalServerErrorExceptionHandler.class})
-    public <T> ResponseEntity<CommonResponse<List<T>>> handleInternalServerErrorException(AlreadyExistsErrorExceptionHandler e) {
+    public ResponseEntity<CommonResponse<String>> handleInternalServerErrorException(InternalServerErrorExceptionHandler e) {
         logger.error("{} Internal Server Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
-        CommonResponse commonResponse = new CommonResponse(
-                ResponseCodesAndMessages.VALIDATION_ERROR_STATUS,
-                ResponseCodesAndMessages.VALIDATION_ERROR_CODE,
-                ResponseCodesAndMessages.VALIDATION_ERROR_MESSAGE,
-                null
+
+        CommonResponse<String> commonResponse = new CommonResponse<>(
+                ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_STATUS,
+                ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_CODE,
+                ResponseCodesAndMessages.INTERNAL_SERVER_ERROR_MESSAGE,
+                e.getMessage()
         );
-        return new ResponseEntity<>(commonResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(commonResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -70,6 +72,84 @@ public class GlobalExceptionHandler {
                 e.getMessage()
         );
         return new ResponseEntity<>(commonResponse, HttpStatus.CONFLICT);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {InsertDataErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerInsertDataErrorException(InsertDataErrorExceptionHandler e) {
+        logger.error("{} Insert Data Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {UpdateDataErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerUpdateDataErrorException(UpdateDataErrorExceptionHandler e) {
+        logger.error("{} Update Data Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {DeleteDataErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerDeleteDataErrorException(DeleteDataErrorExceptionHandler e) {
+        logger.error("{} Delete Data Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {SearchDataErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerSearchDataErrorException(SearchDataErrorExceptionHandler e) {
+        logger.error("{} Search Data Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {NoAnyDataFoundErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerNoAnyDataFoundErrorException(NoAnyDataFoundErrorExceptionHandler e) {
+        logger.error("{} No Any Data Found Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {PreviousDataAndNewDataSameErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerPreviousDataAndNewDataSameErrorException(PreviousDataAndNewDataSameErrorExceptionHandler e) {
+        logger.error("{} Previous Data And New Data Same Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

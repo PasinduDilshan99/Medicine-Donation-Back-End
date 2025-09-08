@@ -1,6 +1,7 @@
 package com.nimbusnex.medicine_donation.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nimbusnex.medicine_donation.model.enums.RoleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,4 +32,6 @@ public class Role {
 
     @JsonProperty("updated_by")
     private Long updatedBy;
+
+    private String status;
 }

@@ -13,8 +13,13 @@ public class ResponseCodesAndMessages {
 
     // SUCCESSFULLY_CREATE
     public static final int SUCCESSFULLY_RETRIEVE_STATUS = 200;
-    public static final String SUCCESSFULLY_RETRIEVE_CODE = "SUCCESSFULLY_CREATE";
-    public static final String SUCCESSFULLY_RETRIEVE_MESSAGE = "SUCCESSFULLY_CREATE";
+    public static final String SUCCESSFULLY_RETRIEVE_CODE = "SUCCESSFULLY_RETRIEVE";
+    public static final String SUCCESSFULLY_RETRIEVE_MESSAGE = "SUCCESSFULLY_RETRIEVE";
+
+    // SUCCESSFULLY_CREATE
+    public static final int SUCCESSFULLY_UPDATE_STATUS = 200;
+    public static final String SUCCESSFULLY_UPDATE_CODE = "SUCCESSFULLY_UPDATE";
+    public static final String SUCCESSFULLY_UPDATE_MESSAGE = "SUCCESSFULLY_UPDATE";
 
     // ALREADY_USER_EXIST
     public static final int ALREADY_USER_EXIST_STATUS = 200;
