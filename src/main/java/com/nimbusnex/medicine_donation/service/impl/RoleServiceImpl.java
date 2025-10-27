@@ -3,6 +3,7 @@ package com.nimbusnex.medicine_donation.service.impl;
 import com.nimbusnex.medicine_donation.exception.*;
 import com.nimbusnex.medicine_donation.model.entity.Role;
 import com.nimbusnex.medicine_donation.model.entity.User;
+import com.nimbusnex.medicine_donation.model.enums.RoleStatus;
 import com.nimbusnex.medicine_donation.model.request.AddRoleRequest;
 import com.nimbusnex.medicine_donation.model.request.UpdateRoleRequest;
 import com.nimbusnex.medicine_donation.model.request.ValidateStringRequest;
@@ -181,6 +182,9 @@ public class RoleServiceImpl implements RoleService {
                     validationResponse.getValidationFailedFieldResponses());
         }
         Role searchedRole = roleRepository.getRoleByName(role.getName());
+        if (!searchedRole.getStatus().equals(RoleStatus.ACTIVE)){
+            throw new InvalidStatusCodeErrorExceptionHandler("User role is not active");
+        }
         if (searchedRole == null) {
             throw new NoAnyDataFoundErrorExceptionHandler("Role not found : " + role.getName());
         } else if (role.getName().equals(searchedRole.getName()) && role.getDescription().equals(searchedRole.getDescription())) {

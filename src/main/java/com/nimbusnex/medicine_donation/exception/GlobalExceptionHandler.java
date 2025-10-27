@@ -152,4 +152,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {InvalidStatusCodeErrorExceptionHandler.class})
+    public ResponseEntity<CommonResponse<String>> handlerInvalidStatusCodeErrorException(InvalidStatusCodeErrorExceptionHandler e) {
+        logger.error("{} Invalid Status Code Error Exception : {} {}", Constant.ERROR_DOTS_START, e, Constant.ERROR_DOTS_END);
+        CommonResponse commonResponse = new CommonResponse(
+                ResponseCodesAndMessages.BAD_REQUEST_STATUS,
+                ResponseCodesAndMessages.BAD_REQUEST_CODE,
+                ResponseCodesAndMessages.BAD_REQUEST_MESSAGES,
+                e.getMessage()
+        );
+        return new ResponseEntity<>(commonResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }
